@@ -14,6 +14,9 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
 
+    with app.app_context():
+        db.create_all()
+
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp)
 
