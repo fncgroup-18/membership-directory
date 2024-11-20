@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Company Directory</h1>
+        {% if companies %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for company in companies %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ company.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ company.industry }}</h6>
+                        <p class="card-text">{{ company.description }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% if company.website %}
+                        <li class="list-group-item">
+                            <strong>Website:</strong> 
+                            <a href="{{ company.website }}" target="_blank">{{ company.website }}</a>
+                        </li>
+                        {% endif %}
+                        {% if company.address %}
+                        <li class="list-group-item">
+                            <strong>Address:</strong> {{ company.address }}
+                        </li>
+                        {% endif %}
+                        {% if company.phone %}
+                        <li class="list-group-item">
+                            <strong>Phone:</strong> {{ company.phone }}
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            No companies registered yet.
+            {% if current_user.is_authenticated and not current_user.company %}
+            <a href="{{ url_for('main.create_company') }}">Be the first to register your company!</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
