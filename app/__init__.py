@@ -15,12 +15,19 @@ def create_app():
     login_manager.login_view = 'auth.login'
 
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+        except Exception as e:
+            app.logger.error(f"Error creating database tables: {e}")
 
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp)
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
+
+    @app.route('/health')
+    def health_check():
+        return 'OK', 200
 
     return app
