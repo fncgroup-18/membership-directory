@@ -11,6 +11,10 @@ def index():
     companies = Company.query.all()
     return render_template('main/index.html', title='Home', companies=companies)
 
+@bp.route('/test')
+def test():
+    return "Hello! The application is running correctly!"
+
 @bp.route('/company/new', methods=['GET', 'POST'])
 @login_required
 def create_company():
