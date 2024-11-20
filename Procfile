@@ -1,1 +1,1 @@
-web: gunicorn "app:create_app()" --log-file -
+web: gunicorn wsgi:app --log-file -
